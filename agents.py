@@ -88,7 +88,8 @@ class PathologyAgent:
             vote = "Admit" if "DECISION: Admit" in text else "Discharge"
             reason = text.split("REASON:")[-1].strip() if "REASON:" in text else text
             return {"decision": vote, "reason": reason}
-        except:
+        except Exception as e:
+            print(f"PathologyAgent Error: {e}")
             return {"decision": "Uncertain", "reason": "Error"}
 
 
@@ -131,7 +132,8 @@ class DischargeOfficerAgent:
             vote = "Admit" if "DECISION: Admit" in text else "Discharge"
             reason = text.split("REASON:")[-1].strip() if "REASON:" in text else text
             return {"decision": vote, "reason": reason}
-        except:
+        except Exception as e:
+            print(f"DischargeOfficerAgent Error: {e}")
             return {"decision": "Uncertain", "reason": "Error"}
 
 
@@ -175,7 +177,8 @@ class GeriatricAgent:
             vote = "Admit" if "DECISION: Admit" in text else "Discharge"
             reason = text.split("REASON:")[-1].strip() if "REASON:" in text else text
             return {"decision": vote, "reason": reason}
-        except:
+        except Exception as e:
+            print(f"GeriatricAgent Error: {e}")
             return {"decision": "Uncertain", "reason": "Error"}
 
 
@@ -256,5 +259,18 @@ class SupervisorAgent:
 
                 # Corrected keys to match main.py
                 return {
+                    "final_decision": decision,
+                    "override_reason": reason,
+                    "decision_source": winner
+                }
+
+            except Exception as e:
+                print(f"SupervisorAgent Attempt {attempt+1} Error: {e}")
+                time.sleep(1)
+
+        # Fail-safe default
+        return {
+            "final_decision": "Admit",
+            "override_reason": "System Error",
             "decision_source": "Error_Fallback"
         }
