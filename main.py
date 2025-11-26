@@ -47,7 +47,7 @@ class PatientInput(BaseModel):
     background: str
     remarks: str
 
-@app.get("/")
+@app.get("/api/health")
 def health_check():
     return {"status": "ok", "message": "SMARTriage API is running"}
 
