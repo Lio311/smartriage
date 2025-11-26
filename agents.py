@@ -217,16 +217,16 @@ class SupervisorAgent:
 
         **CONFLICT RESOLUTION - FOLLOW STRICTLY:**
 
-        A. **SAFETY FIRST (Criticals):**
+        1. **RESOURCE MANAGEMENT (The Filter):**
+           - If Discharge Officer votes **DISCHARGE** (citing "Observation Unit", "Short Stay", or "ER Treatment") AND Patient is Hemodynamically Stable -> **DISCHARGE**.
+           - If Pathologist votes ADMIT only for "Rule Out", "Suspicion", "Risk Factors", or "AFib" without active instability -> **DISCHARGE**.
+
+        2. **SAFETY NET (Criticals):**
+           - **ONLY** if Rule 1 did not apply:
            - If Pathologist votes ADMIT for **Sepsis**, **Ischemia** (Heart/Brain/Limb), **Acute Abdomen**, or **Active Bleeding** -> **ADMIT**.
            - If Geriatrician votes ADMIT for **New Immobility** or **Acute Confusion** -> **ADMIT**.
-           - **EXCEPTION:** If the reason is "Rule Out", "Suspicion", "AFib", or "Risk Factors" ONLY, and patient is stable -> Go to Rule B.
 
-        B. **RESOURCE MANAGEMENT (Reduce False Positives):**
-           - If Discharge Officer votes **DISCHARGE** (citing "Observation Unit", "Short Stay", or "ER Treatment") AND Patient is Hemodynamically Stable -> **DISCHARGE**.
-           - If Pathologist votes ADMIT only for "Rule Out", "Suspicion", or "Risk Factors" without active instability -> **DISCHARGE**.
-
-        C. **TIE BREAKER:**
+        3. **TIE BREAKER:**
            - If opinions clash on a stable patient -> **DISCHARGE**.
            - Only admit if there is a specific, acute, life-threatening reason.
 
@@ -256,17 +256,5 @@ class SupervisorAgent:
 
                 # Corrected keys to match main.py
                 return {
-                    "final_decision": decision,
-                    "override_reason": reason,
-                    "decision_source": winner
-                }
-
-            except Exception as e:
-                time.sleep(1)
-
-        # Fail-safe default
-        return {
-            "final_decision": "Admit",
-            "override_reason": "System Error",
             "decision_source": "Error_Fallback"
         }
