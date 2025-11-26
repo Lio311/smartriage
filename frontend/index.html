@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMARTriage AI Council</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                </svg>
+                <h1>SMARTriage AI</h1>
+            </div>
+            <div class="status-badge">System Online</div>
+        </header>
+
+        <main>
+            <!-- Left Column: Input -->
+            <section class="input-section">
+                <h2>Patient Intake</h2>
+                <form id="triageForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="text" id="age" placeholder="e.g. 75" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="complaint">Main Complaint</label>
+                        <input type="text" id="complaint" placeholder="e.g. Chest Pain, Weakness" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="esi">ESI Score (1-5)</label>
+                            <input type="number" id="esi" step="0.1" placeholder="3.0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="vitals">Vitals Summary</label>
+                            <input type="text" id="vitals" placeholder="HR 80, BP 120/80, Sat 98%, Temp 37" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="background">Medical History</label>
+                        <textarea id="background" rows="3" placeholder="e.g. HTN, DM, Previous MI..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="remarks">Clinical Remarks / HPI</label>
+                        <textarea id="remarks" rows="4" placeholder="Patient presents with..." required></textarea>
+                    </div>
+
+                    <button type="submit" id="submitBtn">
+                        <span class="btn-text">Run Triage Analysis</span>
+                        <div class="loader hidden"></div>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Right Column: Results -->
+            <section class="results-section hidden" id="resultsSection">
+                <div class="final-decision-card" id="finalDecisionCard">
+                    <div class="decision-header">
+                        <h2>Final Decision</h2>
+                        <span class="decision-badge" id="decisionBadge">ADMIT</span>
+                    </div>
+                    <p class="decision-reason" id="decisionReason">
+                        Patient requires admission due to acute instability...
+                    </p>
+                    <div class="decision-source">
+                        Source: <span id="decisionSource">SupervisorAgent</span>
+                    </div>
+                </div>
+
+                <div class="agents-grid">
+                    <!-- Safety Agent -->
+                    <div class="agent-card" id="safetyCard">
+                        <div class="agent-header">
+                            <span class="agent-name">Safety Protocol</span>
+                            <span class="agent-vote" id="safetyVote">SAFE</span>
+                        </div>
+                        <p class="agent-reason" id="safetyReason">No critical flags detected.</p>
+                    </div>
+
+                    <!-- Pathology Agent -->
+                    <div class="agent-card" id="pathologyCard">
+                        <div class="agent-header">
+                            <span class="agent-name">Pathologist</span>
+                            <span class="agent-vote" id="pathologyVote">ADMIT</span>
+                        </div>
+                        <p class="agent-reason" id="pathologyReason">High biological risk due to...</p>
+                    </div>
+
+                    <!-- Discharge Officer -->
+                    <div class="agent-card" id="dischargeCard">
+                        <div class="agent-header">
+                            <span class="agent-name">Discharge Officer</span>
+                            <span class="agent-vote" id="dischargeVote">DISCHARGE</span>
+                        </div>
+                        <p class="agent-reason" id="dischargeReason">Can be managed in Observation Unit.</p>
+                    </div>
+
+                    <!-- Geriatric Agent -->
+                    <div class="agent-card" id="geriatricCard">
+                        <div class="agent-header">
+                            <span class="agent-name">Geriatrician</span>
+                            <span class="agent-vote" id="geriatricVote">ADMIT</span>
+                        </div>
+                        <p class="agent-reason" id="geriatricReason">New functional decline detected.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
