@@ -101,7 +101,16 @@ async def triage_patient(data: PatientInput):
         raise HTTPException(status_code=500, detail=str(e))
 
 # Mount static files
-frontend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../frontend"))
+print(f"Current Working Directory: {os.getcwd()}")
+print(f"Files in CWD: {os.listdir('.')}")
+try:
+    print(f"Files in parent: {os.listdir('..')}")
+except:
+    pass
+
+frontend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "frontend"))
+print(f"Looking for frontend at: {frontend_path}")
+
 if os.path.exists(frontend_path):
     app.mount("/", StaticFiles(directory=frontend_path, html=True), name="static")
 else:
